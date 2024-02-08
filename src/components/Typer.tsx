@@ -135,7 +135,16 @@ class _Typer extends DocumentRenderer<Typer.Props<any>, TyperState> implements D
     return this.props.imageHooks as Images.Hooks<any>
   }
 
+  private updatedNotLongAgo = false
+
   public async updateDocument(documentUpdate: Document): Promise<void> {
+    if (this.updatedNotLongAgo) {
+      return
+    }
+    this.updatedNotLongAgo = true
+    setTimeout(() => {
+      this.updatedNotLongAgo = false
+    }, 100)
     return (
       (this.props.onDocumentUpdate && this.props.document && this.props.onDocumentUpdate(documentUpdate)) ||
       Promise.resolve()
