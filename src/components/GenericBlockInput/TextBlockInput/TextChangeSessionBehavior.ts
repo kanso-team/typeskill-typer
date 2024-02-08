@@ -37,37 +37,7 @@ function applySelectionChange(owner: TextChangeSessionOwner, textChangeSession: 
   owner.updateOps(documentDeltaUpdate)
 }
 
-const IOS_TIMEOUT_DURATION = 10
-
-/**
- * As of RN61 on iOS, selection changes happens before text change.
- */
-export const iosTextChangeSessionBehavior: TextChangeSessionBehavior = {
-  handleOnSelectionChanged(owner, { nativeEvent: { selection } }) {
-    owner.clearTimeout()
-    const textChangeSession = new TextChangeSession()
-    textChangeSession.setSelectionBeforeChange(owner.getBlockScopedSelection() as SelectionShape)
-    textChangeSession.setSelectionAfterChange(selection)
-    owner.setTextChangeSession(textChangeSession)
-    owner.setTimeout(() => {
-      owner.setTextChangeSession(null)
-      owner.updateSelection(selection)
-    }, IOS_TIMEOUT_DURATION)
-  },
-  handleOnTextChanged(owner, nextText) {
-    owner.clearTimeout()
-    const textChangeSession = owner.getTextChangeSession()
-    if (textChangeSession !== null) {
-      textChangeSession.setTextAfterChange(nextText)
-      applySelectionChange(owner, textChangeSession)
-    }
-  },
-}
-
-/**
- * As of RN61 on Android, text changes happens before selection change.
- */
-export const androidTextChangeSessionBehavior: TextChangeSessionBehavior = {
+const commonBehavior: TextChangeSessionBehavior = {
   handleOnTextChanged(owner, nextText) {
     const textChangeSession = new TextChangeSession()
     textChangeSession.setTextAfterChange(nextText)
@@ -85,3 +55,13 @@ export const androidTextChangeSessionBehavior: TextChangeSessionBehavior = {
     }
   },
 }
+
+/**
+ * As of RN72 on iOS, text changes happens before selection change.
+ */
+export const iosTextChangeSessionBehavior: TextChangeSessionBehavior = commonBehavior
+
+/**
+ * As of RN72 on Android, text changes happens before selection change.
+ */
+export const androidTextChangeSessionBehavior: TextChangeSessionBehavior = commonBehavior
