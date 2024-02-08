@@ -50,7 +50,6 @@ export const iosTextChangeSessionBehavior: TextChangeSessionBehavior = {
     textChangeSession.setSelectionAfterChange(selection)
     owner.setTextChangeSession(textChangeSession)
     owner.setTimeout(() => {
-      owner.setTextChangeSession(null)
       owner.updateSelection(selection)
     }, IOS_TIMEOUT_DURATION)
   },
