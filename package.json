@@ -1,7 +1,7 @@
 {
-  "name": "@typeskill/typer",
+  "name": "typeskill-typer-kanso-fork",
   "version": "1.0.0",
-  "repository": "git@github.com:typeskill/typeskill.git",
+  "repository": "git@github.com:kanso-team/typeskill-typer.git",
   "description": "Operational-Transform Based (React) Native Rich Text Editor",
   "author": "Jules Randolph <jules.sam.randolph@gmail.com>",
   "private": false,
@@ -123,4 +123,3 @@
     }
   }
 }
-
