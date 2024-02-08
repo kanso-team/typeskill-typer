@@ -97,7 +97,7 @@ class Transforms {
     if (op.attributes) {
       for (const attributeName of Object.keys(op.attributes)) {
         if (op.attributes != null && attributeName !== '$type') {
-          const attributeValue = op.attributes[attributeName]
+          const attributeValue: any = op.attributes[attributeName]
           let match = false
           if (attributeValue !== null) {
             for (const candidate of this.textTransformsDict[attributeName] || []) {
